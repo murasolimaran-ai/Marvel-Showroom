@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Marvel Showroom</title>
+  <link rel="stylesheet" href="shared.css">
+<style>
+
+/* ====== PAGE HERO ====== */
+.g-hero-wrap {
+  background: var(--black-soft);
+  padding: 80px 72px 56px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.g-hero-wrap::before {
+  content: 'GALLERY';
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 180px;letter-spacing:10px;
+  color: rgba(255,255,255,0.022);
+  top: 50%;right: -10px;
+  transform: translateY(-50%);
+  pointer-events: none;white-space:nowrap;line-height:1;
+}
+.g-hero-wrap::after {
+  content: '';
+  position: absolute;
+  top:0;left:0;width:4px;height:100%;
+  background: linear-gradient(to bottom,var(--red),transparent);
+}
+
+/* ====== FILTER BAR ====== */
+.filter-bar {
+  background: var(--black-muted);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 20px 72px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-family: var(--font-body);font-size:11px;
+  letter-spacing:3px;text-transform:uppercase;
+  color: var(--white-mid);margin-right:6px;
+}
+.f-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white-mid);
+  font-family: var(--font-body);font-size:12px;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding: 9px 20px;border-radius:30px;
+  cursor: pointer;transition:all 0.3s;
+}
+.f-btn.active, .f-btn:hover {
+  background: var(--red);border-color:var(--red);color:var(--white);
+}
+
+/* Count badge */
+.f-count {
+  margin-left:auto;
+  font-family:var(--font-fine);font-size:12px;
+  color:var(--white-mid);
+}
+.f-count span{color:var(--red);}
+
+/* ====== GALLERY GRID ====== */
+.gallery-section {
+  background: var(--black);
+  padding: 60px 72px 100px;
+}
+
+.g-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Tall card */
+.g-grid .g-card:nth-child(1),
+.g-grid .g-card:nth-child(5) {
+  grid-row: span 2;
+}
+
+.g-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--black-muted);
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  transition: transform 0.35s, border-color 0.35s;
+}
+.g-card:hover {
+  transform: scale(1.02);
+  border-color: rgba(224,0,18,0.3);
+}
+
+.g-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+.g-card:hover img { transform: scale(1.06); }
+
+/* Overlay */
+.g-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.3) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 24px;
+  transform: translateY(8px);
+  opacity: 0;
+  transition: all 0.35s;
+}
+.g-card:hover .g-overlay { opacity: 1; transform: translateY(0); }
+
+.g-cat-tag {
+  display: inline-block;
+  background: var(--red);
+  color: var(--white);
+  font-size: 9px;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+  margin-bottom:8px;width:fit-content;
+}
+.g-overlay h3 {
+  font-family: var(--font-display);
+  font-size: 24px;letter-spacing:2px;
+  color: var(--white);
+}
+.g-overlay p {
+  font-size: 12px;font-weight:300;
+  color: rgba(255,255,255,0.65);margin-top:4px;
+}
+.g-overlay-btn {
+  margin-top: 14px;
+  display: inline-flex;align-items:center;gap:6px;
+  background: var(--red);color:var(--white);
+  font-family:var(--font-body);font-size:11px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  border:none;border-radius:20px;padding:9px 18px;
+  cursor:pointer;transition:background 0.3s;width:fit-content;
+}
+.g-overlay-btn:hover{background:#c0000f;}
+
+/* ====== LIGHTBOX ====== */
+.lightbox {
+  display: none;
+  position: fixed;inset:0;z-index:500;
+  background: rgba(10,10,10,0.96);
+  align-items:center;justify-content:center;
+  padding: 40px;
+}
+.lightbox.open{display:flex;}
+.lb-inner {
+  position: relative;
+  max-width: 900px;width:100%;
+  animation: lbPop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes lbPop{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
+}
+.lb-inner img {
+  width:100%;max-height:75vh;
+  object-fit:cover;border-radius:16px;
+  display:block;
+}
+.lb-info {
+  margin-top:16px;display:flex;
+  align-items:center;justify-content:space-between;
+}
+.lb-info h3{
+  font-family:var(--font-display);font-size:28px;
+  letter-spacing:2px;color:var(--white);
+}
+.lb-info p{font-size:13px;color:var(--white-mid);}
+.lb-close {
+  position:absolute;top:-14px;right:-14px;
+  width:40px;height:40px;border-radius:50%;
+  background:var(--red);border:none;color:var(--white);
+  font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.lb-close:hover{background:#c0000f;}
+
+/* ====== EMPTY STATE ====== */
+.no-results {
+  display: none;
+  text-align:center;padding:80px 20px;
+  grid-column:1/-1;
+}
+.no-results h3{
+  font-family:var(--font-display);font-size:36px;
+  letter-spacing:3px;color:var(--white-mid);margin-bottom:10px;
+}
+.no-results p{font-size:13px;color:rgba(255,255,255,0.3);}
+
+@media(max-width:1024px){
+  .g-hero-wrap,.filter-bar,.gallery-section{padding-left:32px;padding-right:32px;}
+  .g-grid{grid-template-columns:repeat(2,1fr);}
+  .g-grid .g-card:nth-child(1),.g-grid .g-card:nth-child(5){grid-row:span 1;}
+}
+@media(max-width:600px){
+  .g-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- injected by JS -->
+
+<!-- HERO -->
+<div class="g-hero-wrap">
+  <div class="page-tag fade-up d1">Our Showcase</div>
+  <h1 class="page-title fade-up d2">Car <em>Gallery</em></h1>
+  <p class="page-subtitle fade-up d3">
+    Explore our handpicked collection of performance machines, luxury sedans, 
+    and next-gen electric vehicles — all in stunning detail.
+  </p>
+  <div class="page-line fade-up d4"></div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="sep">›</span>
+  <span class="cur">Gallery</span>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="f-btn active" data-filter="all">All Cars</button>
+  <button class="f-btn" data-filter="suv">SUV</button>
+  <button class="f-btn" data-filter="sedan">Sedan</button>
+  <button class="f-btn" data-filter="ev">Electric</button>
+  <button class="f-btn" data-filter="performance">Performance</button>
+  <span class="f-count">Showing <span id="visibleCount">9</span> cars</span>
+</div>
+
+<!-- GALLERY GRID -->
+<section class="gallery-section">
+  <span>cars</span>
+
+  <div class="g-grid" id="gGrid">
+
+    <div class="g-card" data-category="performance"
+         data-name="BMW M8 Competition" data-spec="625 HP · 0–100 in 3.0s" data-img="galery_1.jpg">
+      <img src="../images/galery_1.jpg" alt="BMW M8">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Performance</span>
+        <h3>BMW M8</h3>
+        <p>625 HP · 0–100 in 3.0s</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="sedan"
+         data-name="Audi R8 V10" data-spec="570 HP · 330 km/h Top Speed" data-img="galery_2.jpg">
+      <img src="../images/galery_2.jpg" alt="Audi R8">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Sedan</span>
+        <h3>Audi R8</h3>
+        <p>570 HP · 330 km/h Top Speed</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="performance"
+         data-name="Phantom X — Flagship" data-spec="650 HP · AWD System" data-img="model_1.jpg">
+      <img src="../images/model_1.jpg" alt="Phantom X">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Flagship</span>
+        <h3>Phantom X</h3>
+        <p>650 HP · AWD System</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="suv"
+         data-name="Range Rover Sport" data-spec="530 HP · Terrain Mode" data-img="model_2.jpg">
+      <img src="../images/model_2.jpg" alt="Range Rover">
+      <div class="g-overlay">
+        <span class="g-cat-tag">SUV</span>
+        <h3>Range Rover Sport</h3>
+        <p>530 HP · Terrain Mode</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="ev"
+         data-name="Volt Pro — Electric" data-spec="520 km Range · Autopilot" data-img="model_3.jpg">
+      <img src="../images/model_3.jpg" alt="Volt Pro">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Electric</span>
+        <h3>Volt Pro</h3>
+        <p>520 km Range · Autopilot</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="sedan"
+         data-name="Apex GT — Track Edition" data-spec="480 HP · Track Ready" data-img="model_1.jpg">
+      <img src="../images/model_1.jpg" alt="Apex GT">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Sport</span>
+        <h3>Apex GT</h3>
+        <p>480 HP · Track Ready</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="suv"
+         data-name="Iron Man — Marvel Edition" data-spec="600 HP · Night Vision" data-img="about_1.jpg">
+      <img src="../images/about_1.jpg" alt="Iron Man">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Marvel Edition</span>
+        <h3>Iron Man</h3>
+        <p>600 HP · Night Vision</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="g-card" data-category="ev"
+         data-name="Thor EV — Lightning" data-spec="580 HP · 600 km Range" data-img="galery_2.jpg">
+      <img src="../images/galery_2.jpg" alt="Thor EV">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Electric</span>
+        <h3>Thor EV</h3>
+        <p>580 HP · 600 km Range</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="no-results" id="noResults">
+      <h3>NO CARS FOUND</h3>
+      <p>Try a different filter category</p>
+    </div>
+        <div class="g-card" data-category="ev"
+         data-name="Thor EV — Lightning" data-spec="580 HP · 600 km Range" data-img="galery_2.jpg">
+      <img src="../images/galery_5.jpg" alt="Thor EV">
+      <div class="g-overlay">
+        <span class="g-cat-tag">Electric</span>
+        <h3>Thor EV</h3>
+        <p>580 HP · 600 km Range</p>
+        <button class="g-overlay-btn">View Details →</button>
+      </div>
+    </div>
+
+    <div class="no-results" id="noResults">
+      <h3>NO CARS FOUND</h3>
+      <p>Try a different filter category</p>
+    </div>
+
+  </div>
+</section>
+
+<span> Service image <span>
+
+<span> company image <span>
+
+<span></span>
+
+
+<!-- CTA -->
+<section class="cta-strip">
+  <div class="cta-inner">
+    <div>
+      <h2>Found Your<br>Dream Car?</h2>
+      <p>Book a free test drive today — no commitment required.</p>
+    </div>
+    <a href="../booking.html" class="btn-white">Book Test Drive →</a>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLB()">✕</button>
+    <img id="lbImg" src="" alt="">
+    <div class="lb-info">
+      <div>
+        <h3 id="lbName"></h3>
+        <p id="lbSpec"></p>
+      </div>
+      <a href="../booking.html" class="btn-red">Book Test Drive →</a>
+    </div>
+  </div>
+</div>
+
+<script src="marvel-layout.js"></script>
+<script>
+injectLayout('gallery');
+
+/* ------ FILTER ------ */
+const cards   = document.querySelectorAll(".g-card");
+const fBtns   = document.querySelectorAll(".f-btn");
+const counter = document.getElementById("visibleCount");
+const noRes   = document.getElementById("noResults");
+
+function filterGallery(cat) {
+  let visible = 0;
+  cards.forEach(c => {
+    const match = cat === 'all' || c.dataset.category === cat;
+    c.style.display = match ? 'block' : 'none';
+    if (match) visible++;
+  });
+  counter.textContent = visible;
+  noRes.style.display = visible === 0 ? 'block' : 'none';
+}
+
+fBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    fBtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    filterGallery(b.dataset.filter);
+  });
+});
+
+/* ------ LIGHTBOX ------ */
+cards.forEach(c => {
+  c.querySelector('.g-overlay-btn').addEventListener('click', () => {
+    document.getElementById('lbImg').src  = '../' + c.dataset.img;
+    document.getElementById('lbName').textContent = c.dataset.name;
+    document.getElementById('lbSpec').textContent = c.dataset.spec;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+
+function closeLB() { document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLB();
+});
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLB(); });
+</script>
+</body>
+</html>

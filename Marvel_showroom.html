@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marvel Showroom — Drive the Legend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   DESIGN SYSTEM — 3 COLORS ONLY
+   ============================================ */
+:root {
+  --black:  #0a0a0a;
+  --white:  #ffffff;
+  --red:    #e00012;
+
+  --black-soft: #111111;
+  --black-muted: #1a1a1a;
+  --white-dim: rgba(255,255,255,0.08);
+  --white-mid: rgba(255,255,255,0.55);
+  --red-glow: rgba(224,0,18,0.25);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Rajdhani', sans-serif;
+  --font-fine:    'Inter', sans-serif;
+}
+
+/* ============ RESET ============ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+.navbar {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 1400px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 50px;
+  padding: 0 36px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-logo span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 26px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.nav-cta:hover { background: #c0000f; transform: scale(1.04); }
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Multi-layer overlay for depth */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(10,10,10,0.88) 40%, rgba(10,10,10,0.2) 100%),
+    linear-gradient(to top, rgba(10,10,10,0.7) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  max-width: 660px;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white-dim);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 30px;
+  padding: 7px 18px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  margin-bottom: 21px;
+  font-family: var(--font-fine);
+}
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 7vw, 100px);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--red);
+}
+
+.hero-sub {
+  font-family: var(--font-fine);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--white-mid);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 40px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 40px;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-primary:hover { background: #c0000f; transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 40px;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.2s;
+}
+.btn-ghost:hover { border-color: var(--white); transform: translateY(-2px); }
+
+/* Hero Stats */
+.hero-stats {
+  position: absolute;
+  bottom: 50px;
+  right: 8%;
+  z-index: 2;
+  display: flex;
+  gap: 40px;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 40px;
+  color: var(--white);
+  line-height: 1;
+}
+.stat-num span { color: var(--red); }
+.stat-label {
+  font-family: var(--font-fine);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  margin-top: 4px;
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-fine);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--red), transparent);
+}
+@keyframes scrollBounce {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
+}
+
+/* =============================================
+   SECTION HEADERS (reusable)
+   ============================================= */
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-fine);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 72px);
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1;
+}
+.section-title em {
+  font-style: normal;
+  color: var(--red);
+}
+.section-line {
+  width: 60px;
+  height: 2px;
+  background: var(--red);
+  margin: 20px auto 0;
+}
+
+/* =============================================
+   ABOUT SECTION
+   ============================================= */
+.about-section {
+  background: var(--black);
+  padding: 120px 0;
+}
+
+.about-wrap {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-img-wrap {
+  position: relative;
+}
+.about-img-main {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+}
+.about-img-badge {
+  position: absolute;
+  bottom: -24px;
+  right: -24px;
+  width: 140px;
+  height: 140px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 6px solid var(--black);
+}
+.about-img-badge strong {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--white);
+  line-height: 1;
+}
+.about-img-badge span {
+  font-family: var(--font-fine);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+}
+
+.about-content { padding-left: 20px; }
+
+.about-content .section-header { text-align: left; }
+.about-content .section-line { margin: 20px 0 0; }
+
+.about-content p {
+  font-family: var(--font-fine);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--white-mid);
+  line-height: 1.8;
+  margin: 32px 0 40px;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   MODELS SECTION
+   ============================================= */
+.models-section {
+  background: var(--black-soft);
+  padding: 120px 0;
+}
+
+.models-wrap {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.model-selector {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.model-tab {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--white-mid);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.model-tab.active,
+.model-tab:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+.model-display {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  height: 500px;
+}
+.model-display img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.5s ease;
+}
+.model-display::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    rgba(10,10,10,0.95) 100%
+  );
+  pointer-events: none;
+}
+
+.model-info-panel {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  z-index: 2;
+  text-align: right;
+  max-width: 280px;
+}
+.model-name {
+  font-family: var(--font-display);
+  font-size: 52px;
+  color: var(--white);
+  line-height: 1;
+  letter-spacing: 2px;
+}
+.model-desc {
+  font-family: var(--font-fine);
+  font-size: 14px;
+  color: var(--white-mid);
+  margin: 12px 0 24px;
+  font-weight: 300;
+}
+.model-specs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.spec-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+}
+.spec-row span:first-child {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--white-mid);
+  text-transform: uppercase;
+}
+
+/* =============================================
+   GALLERY / CAROUSEL
+   ============================================= */
+.gallery-section {
+  background: var(--black);
+  padding: 120px 0;
+}
+
+.gallery-wrap {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.carousel-stage {
+  position: relative;
+  height: 460px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+  margin-bottom: 40px;
+}
+
+.g-card {
+  position: absolute;
+  width: 300px;
+  height: 420px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+              opacity 0.6s ease;
+}
+.g-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.g-card:hover img { transform: scale(1.04); }
+
+.g-card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px 24px 24px;
+  background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.g-card:hover .g-card-overlay { transform: translateY(0); }
+.g-card-overlay h3 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+.g-card-overlay p {
+  font-family: var(--font-fine);
+  font-size: 12px;
+  color: var(--white-mid);
+  margin-top: 4px;
+}
+.g-card-overlay .tag {
+  display: inline-block;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-fine);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.btn-primar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 40px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* 🔥 alignment fix */
+  vertical-align: middle;
+  margin-left: 15px;
+}
+
+.btn-primar:hover {
+  background: #c0000f;
+  transform: translateY(-2px);
+}
+
+
+
+/* Card states */
+.g-card.active {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 5;
+}
+.g-card.prev {
+  transform: translateX(-360px) scale(0.82);
+  opacity: 0.5;
+  z-index: 3;
+}
+.g-card.next {
+  transform: translateX(360px) scale(0.82);
+  opacity: 0.5;
+  z-index: 3;
+}
+.g-card.prev2 {
+  transform: translateX(-660px) scale(0.68);
+  opacity: 0.2;
+  z-index: 2;
+}
+.g-card.next2 {
+  transform: translateX(660px) scale(0.68);
+  opacity: 0.2;
+  z-index: 2;
+}
+
+/* Carousel controls */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.car-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.car-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+/* Dots */
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 20px;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dot.active {
+  background: var(--red);
+  width: 24px;
+  border-radius: 3px;
+}
+
+/* =============================================
+   WHY CHOOSE US
+   ============================================= */
+.why-section {
+  background: var(--black-soft);
+  padding: 120px 0;
+}
+
+.why-wrap {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.why-card {
+  background: var(--black-muted);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 40px 32px;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.why-card:hover { border-color: rgba(224,0,18,0.3); transform: translateY(-6px); }
+.why-card:hover::before { transform: scaleX(1); }
+
+.why-icon {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: block;
+}
+.why-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.why-card p {
+  font-family: var(--font-fine);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white-mid);
+  line-height: 1.7;
+}
+
+/* =============================================
+   CTA BANNER
+   ============================================= */
+.cta-section {
+  background: var(--red);
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: 'MARVEL';
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 200px;
+  color: rgba(255,255,255,0.05);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  white-space: nowrap;
+  letter-spacing: 20px;
+  pointer-events: none;
+}
+.cta-wrap {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+.cta-text h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1.1;
+}
+.cta-text p {
+  font-family: var(--font-fine);
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  margin-top: 10px;
+  font-weight: 300;
+}
+.btn-white {
+  flex-shrink: 0;
+  background: var(--white);
+  color: var(--red);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 40px;
+  padding: 18px 40px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.btn-white:hover { transform: scale(1.04); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  background: var(--black-soft);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Contact bar */
+.footer-bar {
+  background: var(--red);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.footer-bar-item {
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.footer-bar-item:last-child { border-right: none; }
+.bar-icon { font-size: 22px; flex-shrink: 0; }
+.bar-text strong {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 3px;
+}
+.bar-text span {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* Footer main */
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 60px;
+  padding: 72px 88px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 38px;
+  letter-spacing: 6px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.footer-logo span {
+  display: inline-block;
+  width: 10px; height: 10px;
+  background: var(--red);
+  border-radius: 50%;
+}
+
+.footer-tagline {
+  font-family: var(--font-fine);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white-mid);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* Social */
+.socials {
+  display: flex;
+  gap: 12px;
+}
+.social-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: var(--white);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.social-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.footer-col h4 {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 24px;
+  position: relative;
+  padding-bottom: 14px;
+}
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 28px; height: 2px;
+  background: var(--red);
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+.footer-col ul li a {
+  font-family: var(--font-fine);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white-mid);
+  transition: color 0.3s;
+}
+.footer-col ul li a:hover { color: var(--white); }
+
+/* Map box */
+.map-box {
+  background: var(--black-muted);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  height: 160px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.map-box:hover { border-color: rgba(224,0,18,0.35); }
+.map-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: grayscale(100%) invert(90%) contrast(90%);
+  transition: filter 0.4s;
+}
+.map-box:hover iframe { filter: grayscale(20%) invert(0%) contrast(100%); }
+.map-addr {
+  font-family: var(--font-fine);
+  font-size: 12px;
+  color: var(--white-mid);
+  margin-top: 12px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.map-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.map-btn-link {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 30px;
+  font-family: var(--font-fine);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.map-btn-link.open {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--white-mid);
+}
+.map-btn-link.open:hover { border-color: var(--white); color: var(--white); }
+.map-btn-link.direction {
+  background: var(--red);
+  border: 1px solid var(--red);
+  color: var(--white);
+}
+.map-btn-link.direction:hover { background: #c0000f; transform: translateY(-1px); }
+
+
+/* Footer bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 20px 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-bottom p {
+  font-family: var(--font-fine);
+  font-size: 12px;
+  color: var(--white-mid);
+  font-weight: 300;
+}
+.footer-bottom span { color: var(--red); }
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-tag    { animation: fadeInUp 0.6s ease 0.2s both; }
+.hero-title  { animation: fadeInUp 0.6s ease 0.4s both; }
+.hero-sub    { animation: fadeInUp 0.6s ease 0.6s both; }
+.hero-actions{ animation: fadeInUp 0.6s ease 0.8s both; }
+.hero-stats  { animation: fadeInUp 0.6s ease 1.0s both; }
+
+
+
+
+
+/* chatbot */
+
+/* BUTTON */
+#chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff3c00;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* ---- CHAT BUTTON ---- */
+#chat-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 58px;
+  height: 58px;
+  background: var(--red);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 6px 24px rgba(224,0,18,0.45);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+#chat-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(224,0,18,0.6);
+}
+ 
+/* Pulse ring */
+#chat-btn::before {
+  content: '';
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: 0.35;
+  animation: chatPulse 2s ease-out infinite;
+}
+@keyframes chatPulse {
+  0%   { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+ 
+/* ---- CHAT BOX ---- */
+#chat-box {
+  position: fixed;
+  bottom: 100px;
+  right: 28px;
+  width: 340px;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  z-index: 9998;
+  overflow: hidden;
+  animation: chatSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes chatSlideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+ 
+/* ---- HEADER ---- */
+.chat-hd {
+  background: var(--red);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-hd-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-avatar {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--white);
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.chat-hd-name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+.chat-hd-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-fine);
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+  margin-top: 2px;
+}
+.chat-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.chat-hd-close {
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.2s;
+  padding: 4px;
+}
+.chat-hd-close:hover { color: var(--white); }
+ 
+/* ---- BODY ---- */
+.chat-bd {
+  flex: 1;
+  height: 280px;
+  overflow-y: auto;
+  padding: 18px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chat-bd::-webkit-scrollbar { width: 3px; }
+.chat-bd::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+ 
+/* Messages */
+.cb-msg { display: flex; flex-direction: column; max-width: 82%; }
+.cb-msg.bot  { align-self: flex-start; }
+.cb-msg.user { align-self: flex-end; align-items: flex-end; }
+ 
+.cb-bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-family: var(--font-fine);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cb-msg.bot .cb-bubble {
+  background: #1e1e1e;
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.88);
+  border-bottom-left-radius: 4px;
+}
+.cb-msg.user .cb-bubble {
+  background: var(--red);
+  color: var(--white);
+  border-bottom-right-radius: 4px;
+}
+.cb-time {
+  font-family: var(--font-fine);
+  font-size: 10px;
+  color: rgba(255,255,255,0.28);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+ 
+/* Quick buttons */
+.chat-quick-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 4px;
+}
+.chat-quick-btns button {
+  background: transparent;
+  border: 1px solid rgba(224,0,18,0.4);
+  color: rgba(255,255,255,0.75);
+  font-family: var(--font-fine);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.chat-quick-btns button:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+ 
+/* Typing indicator */
+.typing-bubble {
+  background: #1e1e1e;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  width: fit-content;
+}
+.typing-bubble span {
+  width: 6px; height: 6px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  animation: typingDot 1.2s infinite;
+}
+.typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+.typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%,60%,100% { transform: translateY(0); opacity:0.4; }
+  30%          { transform: translateY(-5px); opacity:1; }
+}
+ 
+/* ---- FOOTER / INPUT ---- */
+.chat-ft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  background: #0e0e0e;
+}
+#chat-input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 10px 16px;
+  color: var(--white);
+  font-family: var(--font-fine);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+#chat-input::placeholder { color: rgba(255,255,255,0.28); }
+#chat-input:focus { border-color: rgba(224,0,18,0.5); }
+#chat-send {
+  width: 38px; height: 38px;
+  background: var(--red);
+  border: none;
+  border-radius: 50%;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+#chat-send:hover { background: #c0000f; transform: scale(1.08); }
+
+
+/* ------------------------- nav bar drop down --------------------------------- */
+/* NAV */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: black;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 30px;
+  background: #111;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.dropdown-menu li {
+  margin: 5px 0;
+}
+
+/* SHOW ON HOVER */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* -------------------------------------------------------------------- */
+
+
+</style>
+</head>
+
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar">
+  <a class="nav-logo" href="#home"><span></span>MARVEL</a></div>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#footer">Location</a></li>
+     <!-- DROPDOWN -->
+    <li class="dropdown">
+      <a href="#">Menu ▼</a>
+
+      <ul class="dropdown-menu">
+        <li><a href="#">Link 1</a></li>
+        <li><a href="#">Link 2</a></li>
+        <li><a href="#">Link 3</a></li>
+      </ul>
+    </li>
+
+  </ul>
+  
+  </ul>
+
+  <button class="nav-cta" ><a href="#contact">Contact Us</a></button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <video id="heroVideo" autoplay muted playsinline class="hero-video"></video>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Premium Car Showroom</div>
+
+    <h1 class="hero-title">
+      Drive the<br>
+      <em id="heroWord">Legend</em><br>
+      Today
+    </h1>
+
+    <p class="hero-sub">
+      Discover a curated collection of world-class automobiles. From powerful performance machines to refined luxury rides — Marvel delivers the extraordinary.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn-primary">Explore Collection →</button>
+      <button class="btn-ghost">Book Test Drive</button>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">500<span>+</span></div>
+      <div class="stat-label">Cars Available</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15<span>K</span></div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">12<span>+</span></div>
+      <div class="stat-label">Years Trusted</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about-section" id="about">
+  <div class="about-wrap">
+
+    <div class="about-img-wrap">
+      <img src="images/about_1.jpg" alt="Marvel Showroom" class="about-img-main">
+      <div class="about-img-badge">
+        <strong>12</strong>
+        <span>Years of<br>Excellence</span>
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="section-header">
+        <div class="section-tag">Who We Are</div>
+        <h2 class="section-title">About <em>Marvel</em></h2>
+        <div class="section-line" style="margin-left:0;"></div>
+      </div>
+
+      <p>
+        Marvel Showroom is your premier destination for luxury and performance automobiles. We believe every driver deserves a car that matches their vision — powerful, elegant, and perfectly suited to their lifestyle. With over a decade of trust, we deliver transparent pricing, flexible financing, and an experience unlike any other dealership.
+      </p>
+
+      <div class="about-features">
+        <div class="feature-item"><div class="feature-dot"></div>Zero Hidden Charges</div>
+        <div class="feature-item"><div class="feature-dot"></div>Flexible Financing</div>
+        <div class="feature-item"><div class="feature-dot"></div>Expert Consultation</div>
+        <div class="feature-item"><div class="feature-dot"></div>After-Sales Support</div>
+        <div class="feature-item"><div class="feature-dot"></div>Certified Pre-Owned</div>
+        <div class="feature-item"><div class="feature-dot"></div>Doorstep Delivery</div>
+      </div>
+
+      <button class="btn-primary">Learn More →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ MODELS ============ -->
+<section class="models-section" id="models">
+  <div class="models-wrap">
+    <div class="section-header">
+      <div class="section-tag">Our Fleet</div>
+      <h2 class="section-title">Explore <em>Models</em></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="model-selector">
+      <button class="model-tab active" onclick="switchModel('images/model_1.jpg','Phantom X','0–100 in 3.2s | 650 HP | AWD','View Details',this)">Phantom X</button>
+      <button class="model-tab" onclick="switchModel('images/model_2.jpg','Apex GT','0–100 in 4.1s | 480 HP | RWD','Buy Now',this)">Apex GT</button>
+      <button class="model-tab" onclick="switchModel('images/model_3.jpg','Volt Pro','0–100 in 2.9s | Electric | AWD','Explore',this)">Volt Pro</button>
+    </div>
+
+    <div class="model-display">
+      <img id="modelImg" src="images/model_1.jpg" alt="Car Model">
+
+      <div class="model-info-panel">
+        <div class="model-name" id="mName">Phantom X</div>
+        <p class="model-desc" id="mDesc">0–100 in 3.2s | 650 HP | AWD</p>
+        <button class="btn-primary" id="mBtn" style="margin-left:auto;">View Details →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-wrap">
+    <div class="section-header">
+      <div class="section-tag">Showcase</div>
+      <h2 class="section-title">Car <em>Gallery</em></h2>
+      <button class="btn-primar"><a href="serv/gallery_page.html">View All Images →</a></button>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="carousel-stage" id="carouselStage">
+
+      <div class="g-card">
+        <img src="images/galery_1.jpg" alt="BMW">
+        <div class="g-card-overlay">
+          <div class="tag">Performance</div>
+          <h3>BMW M8</h3>
+          <p>625 HP · 0–100 in 3.0s</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <img src="images/galery_2.jpg" alt="Audi">
+        <div class="g-card-overlay">
+          <div class="tag">Luxury</div>
+          <h3>Audi R8</h3>
+          <p>570 HP · 330 km/h Top Speed</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <img src="images/model_1.jpg" alt="Model">
+        <div class="g-card-overlay">
+          <div class="tag">Flagship</div>
+          <h3>Phantom X</h3>
+          <p>650 HP · AWD System</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <img src="images/model_2.jpg" alt="Apex">
+        <div class="g-card-overlay">
+          <div class="tag">Sport</div>
+          <h3>Apex GT</h3>
+          <p>480 HP · Track Ready</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <img src="images/model_3.jpg" alt="Volt">
+        <div class="g-card-overlay">
+          <div class="tag">Electric</div>
+          <h3>Volt Pro</h3>
+          <p>520 km Range · Autopilot</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <img src="images/about_1.jpg" alt="Showroom">
+        <div class="g-card-overlay">
+          <div class="tag">Showroom</div>
+          <h3>Our Space</h3>
+          <p>Visit us · Experience Marvel</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="carousel-controls">
+      <button class="car-btn" onclick="goPrev()">←</button>
+      <div class="carousel-dots" id="dotsWrap"></div>
+      <button class="car-btn" onclick="goNext()">→</button>
+      
+    </div>
+  
+
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section class="why-section">
+  <div class="why-wrap">
+    <div class="section-header">
+      <div class="section-tag">Our Edge</div>
+      <h2 class="section-title">Why Choose <em>Marvel</em></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="why-icon">🏎️</span>
+        <h3>Premium Fleet</h3>
+        <p>Over 500 handpicked vehicles — new, certified pre-owned, luxury, and electric, all in one place.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🔒</span>
+        <h3>Trusted & Safe</h3>
+        <p>Every vehicle undergoes a rigorous 200-point inspection before it earns the Marvel badge.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">💳</span>
+        <h3>Easy Finance</h3>
+        <p>Flexible EMI plans, zero-cost processing, and instant approval to drive your dream home today.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🛠️</span>
+        <h3>After-Sales Care</h3>
+        <p>Dedicated service team, genuine spare parts, and 24/7 roadside assistance — always by your side.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BANNER ============ -->
+<section class="cta-section">
+  <div class="cta-wrap">
+    <div class="cta-text">
+      <h2>Ready to Find Your<br>Perfect Car?</h2>
+      <p >Book a free test drive today. No commitment. Just pure thrill.</p>
+    </div>
+    <button class="btn-white" ><a href="booking.html">Book a Test Drive →</a>
+
+    </button>
+  </div>
+</section>
+
+
+
+<!-- phone call -->
+
+
+
+<!-- Floating Button -->
+<div id="chat-btn" title="Chat with us">
+  <svg id="chat-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 3C6.477 3 2 6.925 2 11.75c0 2.278.975 4.345 2.578 5.899L3.5 21l4.13-1.95A11.06 11.06 0 0 0 12 20.5c5.523 0 10-3.925 10-8.75S17.523 3 12 3Z"/>
+  </svg>
+  <svg id="chat-icon-close" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </svg>
+</div>
+ 
+<!-- Chat Box -->
+<div id="chat-box">
+ 
+  <!-- Header -->
+  <div class="chat-hd">
+    <div class="chat-hd-left">
+      <div class="chat-avatar">M</div>
+      <div>
+        <div class="chat-hd-name">Marvel Support</div>
+        <div class="chat-hd-status"><span class="chat-dot"></span>Online</div>
+      </div>
+    </div>
+    <div class="chat-hd-close" onclick="toggleChat()">✕</div>
+  </div>
+ 
+  <!-- Body -->
+  <div class="chat-bd" id="chat-body">
+    <div class="cb-msg bot">
+      <div class="cb-bubble">
+        👋 Hi! Welcome to <strong>Marvel Showroom</strong>.<br>How can I help you today?
+      </div>
+      <div class="cb-time">Just now</div>
+    </div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button onclick="quickAsk('Price')">💰 Pricing</button>
+      <button onclick="quickAsk('Cars')">🚗 Our Cars</button>
+      <button onclick="quickAsk('Contact')">📞 Contact</button>
+      <button onclick="quickAsk('Test Drive')">🏎️ Test Drive</button>
+    </div>
+  </div>
+ 
+  <!-- Input -->
+  <div class="chat-ft">
+    <input type="text" id="chat-input" placeholder="Type your message…" autocomplete="off">
+    <button id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+      </svg>
+    </button>
+  </div>
+ 
+</div>
+
+
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer">
+
+  <!-- Contact Bar -->
+  <div class="footer-bar" id="contact">
+    <div class="footer-bar-item">
+      <span class="bar-icon">📞</span>
+      <div class="bar-text">
+        <strong >Call Us</strong>
+        <span ><a href="tel:+919874563210">+91 98745 63210</a></span>
+        
+      </div>
+    </div>
+    <div class="footer-bar-item">
+      <span class="bar-icon">✉️</span>
+      <div class="bar-text">
+        <strong>Email Us</strong>
+        <span><a href="mailto:marvels.showroom@gmail.com">marvels.showroom@gmail.com</a></span>
+      </div>
+    </div>
+    <div class="footer-bar-item">
+      <span class="bar-icon">🕐</span>
+      <div class="bar-text">
+        <strong>Opening Hours</strong>
+        <span>Mon – Sat · 9 AM to 7 PM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Footer -->
+  <div class="footer-main">
+
+    <!-- Brand col -->
+    <div class="footer-col">
+      <div class="footer-logo"><span></span>MARVEL</div>
+      <p class="footer-tagline">
+        Your trusted showroom for buying, renting, and servicing world-class automobiles. Premium quality, honest pricing, forever.
+      </p>
+      <div class="socials">
+        <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram">
+          <!-- Instagram SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="https://facebook.com" target="_blank" class="social-btn" title="Facebook">
+          <!-- Facebook SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+        <a href="https://youtube.com" target="_blank" class="social-btn" title="YouTube">
+          <!-- YouTube SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#models">Our Models</a></li>
+        <li><a href="serv/gallery_page.html">Gallery</a></li>
+        <li><a href="booking.html">Test Drive</a></li>
+        <li><a href="#">Finance</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="Fotter/privacy_policy.html">Privacy Policy</a></li>
+        <li><a href="Fotter/terms_condition.html">Terms & Conditions</a></li>
+        <li><a href="Fotter/cookies_policy.html">Cookie Policy</a></li>
+        <li><a href="Fotter/disclaimer.html">Disclaimer</a></li>
+        <li><a href="Fotter/return_policy.html">Return Policy</a></li>
+        <li><a href="serv/faq_page.html">FAQ Information</a></li>
+      </ul>
+    </div>
+
+    <!-- Location -->
+    <div class="footer-col">
+      <h4>Our Location</h4>
+      <div class="map-box">
+        <iframe
+          src="https://www.google.com/maps?q=12.8076844,80.2258115&z=14&output=embed"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <p class="map-addr">
+        Marvel Showroom, Main Road,<br>
+        Padur, Tamil Nadu, India — 600001
+      </p>
+      <div class="map-actions">
+        <a href="https://www.google.com/maps/place/Padur,+Tamil+Nadu/"
+           target="_blank"
+           class="map-btn-link open">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Open Map
+        </a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=12.8076844,80.2258115"
+           target="_blank"
+           class="map-btn-link direction">
+          🚗 Directions
+        </a>
+      </div>
+    </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <p>© 2026 <span><a href="Marvel_showroom.html">Marvel Showroom</a></span>. All rights reserved.</p>
+    <p>Crafted with <span>♥</span> for car lovers</p>
+  </div>
+
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+
+/* ------ HERO VIDEO SEQUENCE ------ */
+const heroSequence = [
+  { src: "images/video_1.mp4", word: "Legend" },
+  { src: "images/video_2.mp4", word: "Power" },
+  { src: "images/video_3.mp4", word: "Future" }
+];
+let heroIdx = 0;
+const heroVideo = document.getElementById("heroVideo");
+const heroWord  = document.getElementById("heroWord");
+
+function playHero() {
+  const item = heroSequence[heroIdx];
+  heroVideo.src = item.src;
+  heroVideo.play();
+  heroWord.style.opacity = "0";
+  setTimeout(() => {
+    heroWord.textContent = item.word;
+    heroWord.style.transition = "opacity 0.6s";
+    heroWord.style.opacity = "1";
+  }, 300);
+}
+
+heroVideo.addEventListener("ended", () => {
+  heroIdx = (heroIdx + 1) % heroSequence.length;
+  playHero();
+});
+
+playHero();
+
+/* ------ MODEL SWITCHER ------ */
+function switchModel(img, name, desc, btn, tabEl) {
+  const mImg  = document.getElementById("modelImg");
+  const mName = document.getElementById("mName");
+  const mDesc = document.getElementById("mDesc");
+  const mBtn  = document.getElementById("mBtn");
+
+  mImg.style.opacity = "0";
+  setTimeout(() => {
+    mImg.src = img;
+    mImg.style.transition = "opacity 0.5s";
+    mImg.style.opacity = "1";
+  }, 300);
+
+  mName.textContent = name;
+  mDesc.textContent = desc;
+  mBtn.textContent  = btn + " →";
+
+  document.querySelectorAll(".model-tab").forEach(t => t.classList.remove("active"));
+  tabEl.classList.add("active");
+}
+
+/* ------ GALLERY CAROUSEL ------ */
+const gCards = Array.from(document.querySelectorAll(".g-card"));
+const dotsWrap = document.getElementById("dotsWrap");
+const stage    = document.getElementById("carouselStage");
+let gIdx = 0;
+let autoPlay;
+
+// Build dots
+gCards.forEach((_, i) => {
+  const d = document.createElement("div");
+  d.className = "dot" + (i === 0 ? " active" : "");
+  d.addEventListener("click", () => goTo(i));
+  dotsWrap.appendChild(d);
+});
+
+function updateCarousel() {
+  const n = gCards.length;
+  gCards.forEach((c, i) => {
+    c.className = "g-card";
+    const diff = (i - gIdx + n) % n;
+    if (diff === 0) c.classList.add("active");
+    else if (diff === n - 1) c.classList.add("prev");
+    else if (diff === 1) c.classList.add("next");
+    else if (diff === n - 2) c.classList.add("prev2");
+    else if (diff === 2) c.classList.add("next2");
+  });
+
+  // Dots
+  document.querySelectorAll(".dot").forEach((d, i) => {
+    d.classList.toggle("active", i === gIdx);
+  });
+}
+
+function goNext() { gIdx = (gIdx + 1) % gCards.length; updateCarousel(); }
+function goPrev() { gIdx = (gIdx - 1 + gCards.length) % gCards.length; updateCarousel(); }
+function goTo(i)  { gIdx = i; updateCarousel(); }
+
+function startAuto() { autoPlay = setInterval(goNext, 4500); }
+function stopAuto()  { clearInterval(autoPlay); }
+
+stage.addEventListener("mouseenter", stopAuto);
+stage.addEventListener("mouseleave", startAuto);
+
+updateCarousel();
+startAuto();
+
+
+/* ---- CHAT LOGIC ---- */
+const chatBtn   = document.getElementById("chat-btn");
+const chatBox   = document.getElementById("chat-box");
+const chatInput = document.getElementById("chat-input");
+const chatBody  = document.getElementById("chat-body");
+const sendBtn   = document.getElementById("chat-send");
+const iconOpen  = document.getElementById("chat-icon-open");
+const iconClose = document.getElementById("chat-icon-close");
+ 
+let isOpen = false;
+ 
+function toggleChat() {
+  isOpen = !isOpen;
+  chatBox.style.display = isOpen ? "flex" : "none";
+  iconOpen.style.display  = isOpen ? "none"  : "block";
+  iconClose.style.display = isOpen ? "block" : "none";
+  if (isOpen) chatInput.focus();
+}
+ 
+chatBtn.addEventListener("click", toggleChat);
+ 
+/* Quick ask buttons */
+function quickAsk(topic) {
+  document.getElementById("quickBtns").remove();
+  sendMessage(topic);
+}
+ 
+/* Bot replies */
+const replies = {
+  price:    "Our cars start from ₹5 Lakhs! We have options for every budget. Want me to help narrow it down? 🚗",
+  car:      "We have SUVs, Sedans, EVs, and Performance cars — 500+ models in stock! Which type interests you?",
+  contact:  "📞 Call us: <strong>+91 98745 63210</strong><br>📧 marvels.showroom@gmail.com",
+  test:     "🏎️ Test drives are FREE! Just walk in Mon–Sat 9AM–7PM or call <strong>+91 98745 63210</strong> to book a slot.",
+  hi:       "Hey there! 👋 How can I assist you today?",
+  hello:    "Hello! Welcome to Marvel Showroom. What can I help you with?",
+  hour:     "We're open Monday to Saturday, 9 AM – 7 PM. Come visit us anytime!",
+  location: "We're located on Main Road, Tamil Nadu. Drop by or call us to get directions! 📍",
+  finance:  "💳 We offer easy EMI with zero processing fee! Share your budget and we'll find the best plan for you.",
+  default:  "Thanks for reaching out! For quick help, call us at <strong>+91 98745 63210</strong> or email marvels.showroom@gmail.com 😊"
+};
+ 
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes("price") || m.includes("cost") || m.includes("rate")) return replies.price;
+  if (m.includes("car") || m.includes("model") || m.includes("vehicle")) return replies.car;
+  if (m.includes("contact") || m.includes("number") || m.includes("phone")) return replies.contact;
+  if (m.includes("test") || m.includes("drive")) return replies.test;
+  if (m.includes("hi") || m.includes("hey")) return replies.hi;
+  if (m.includes("hello")) return replies.hello;
+  if (m.includes("hour") || m.includes("time") || m.includes("open")) return replies.hour;
+  if (m.includes("location") || m.includes("address") || m.includes("where")) return replies.location;
+  if (m.includes("finance") || m.includes("emi") || m.includes("loan")) return replies.finance;
+  return replies.default;
+}
+ 
+function getTime() {
+  return new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+}
+ 
+function addMsg(html, type) {
+  const wrap = document.createElement("div");
+  wrap.className = `cb-msg ${type}`;
+  wrap.innerHTML = `<div class="cb-bubble">${html}</div><div class="cb-time">${getTime()}</div>`;
+  chatBody.appendChild(wrap);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+ 
+function showTyping() {
+  const t = document.createElement("div");
+  t.className = "cb-msg bot";
+  t.id = "typing";
+  t.innerHTML = `<div class="typing-bubble"><span></span><span></span><span></span></div>`;
+  chatBody.appendChild(t);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+ 
+function removeTyping() {
+  const t = document.getElementById("typing");
+  if (t) t.remove();
+}
+ 
+function sendMessage(text) {
+  const msg = text || chatInput.value.trim();
+  if (!msg) return;
+ 
+  addMsg(msg, "user");
+  chatInput.value = "";
+ 
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addMsg(getBotReply(msg), "bot");
+  }, 900 + Math.random() * 500);
+}
+ 
+sendBtn.addEventListener("click", () => sendMessage());
+chatInput.addEventListener("keypress", e => {
+  if (e.key === "Enter") sendMessage();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Test Drive — Marvel Showroom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============ DESIGN SYSTEM ============ */
+:root {
+  --black:       #0a0a0a;
+  --black-soft:  #111111;
+  --black-muted: #1a1a1a;
+  --black-card:  #161616;
+  --white:       #ffffff;
+  --white-mid:   rgba(255,255,255,0.55);
+  --white-dim:   rgba(255,255,255,0.07);
+  --red:         #e00012;
+  --red-dim:     rgba(224,0,18,0.12);
+  --red-border:  rgba(224,0,18,0.3);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Rajdhani', sans-serif;
+  --font-fine:    'Inter', sans-serif;
+
+  --radius: 14px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ============ RESET ============ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-fine);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { text-decoration: none; color: inherit; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+/* ============ NAVBAR ============ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 68px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10,10,10,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-logo::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.nav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  transition: color var(--transition);
+}
+.nav-back:hover { color: var(--white); }
+.nav-back svg { transition: transform var(--transition); }
+.nav-back:hover svg { transform: translateX(-3px); }
+
+/* ============ PAGE LAYOUT ============ */
+.page-wrap {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  min-height: calc(100vh - 68px);
+}
+
+/* ============ LEFT PANEL ============ */
+.left-panel {
+  background: var(--black-soft);
+  border-right: 1px solid rgba(255,255,255,0.05);
+  padding: 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Big watermark */
+.left-panel::before {
+  content: 'DRIVE';
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 200px;
+  color: rgba(255,255,255,0.022);
+  bottom: -20px;
+  left: -20px;
+  letter-spacing: 10px;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.left-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 28px;
+  width: fit-content;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+.left-tag::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--red);
+  border-radius: 50%;
+}
+
+.left-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5vw, 72px);
+  letter-spacing: 3px;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 8px;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+.left-title em {
+  font-style: normal;
+  color: var(--red);
+  display: block;
+}
+
+.left-line {
+  width: 50px; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  margin: 24px 0;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+
+.left-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--white-mid);
+  line-height: 1.8;
+  max-width: 360px;
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+
+/* Perks */
+.perks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeUp 0.6s ease 0.5s both;
+}
+
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white-dim);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 18px;
+  transition: border-color var(--transition), background var(--transition);
+}
+.perk:hover {
+  border-color: var(--red-border);
+  background: var(--red-dim);
+}
+.perk-icon { font-size: 20px; flex-shrink: 0; }
+.perk-text strong {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--white);
+}
+.perk-text span {
+  font-size: 12px;
+  color: var(--white-mid);
+  font-weight: 300;
+}
+
+/* ============ RIGHT PANEL (FORM) ============ */
+.right-panel {
+  background: var(--black);
+  padding: 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.form-header {
+  margin-bottom: 36px;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+.form-header h2 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  letter-spacing: 3px;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.form-header p {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white-mid);
+}
+
+/* Steps indicator */
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 36px;
+  animation: fadeUp 0.6s ease 0.25s both;
+}
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+}
+.step-item.active { color: var(--white); }
+.step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-family: var(--font-fine);
+}
+.step-item.active .step-num {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+.step-sep {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  max-width: 30px;
+}
+
+/* Form */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  animation: fadeUp 0.6s ease 0.35s both;
+}
+
+/* Row - 2 columns */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Field group */
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.field label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-mid);
+  margin-bottom: 8px;
+  transition: color var(--transition);
+}
+.field:focus-within label { color: var(--red); }
+
+/* Input / Select base */
+.field input,
+.field select {
+  width: 100%;
+  background: var(--black-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  color: var(--white);
+  font-family: var(--font-fine);
+  font-size: 14px;
+  font-weight: 300;
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.field input::placeholder { color: rgba(255,255,255,0.2); }
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--red);
+  background: var(--black-muted);
+}
+
+/* Valid state */
+.field input:valid:not(:placeholder-shown) {
+  border-color: rgba(74,222,128,0.4);
+}
+
+/* Select arrow */
+.select-wrap {
+  position: relative;
+}
+.select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--white-mid);
+  pointer-events: none;
+}
+.field select option {
+  background: var(--black-muted);
+  color: var(--white);
+}
+
+/* Date/time icon tint */
+.field input[type="date"],
+.field input[type="time"] {
+  color-scheme: dark;
+}
+
+/* Divider */
+.form-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin: 6px 0 20px;
+}
+
+/* Section label */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  height: 56px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--transition), transform var(--transition);
+}
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transition: left 0.5s;
+}
+.submit-btn:hover { background: #c0000f; transform: translateY(-2px); }
+.submit-btn:hover::before { left: 100%; }
+.submit-btn:active { transform: translateY(0); }
+
+/* Disclaimer */
+.form-note {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+.form-note a { color: var(--red); text-decoration: underline; }
+
+/* ============ SUCCESS OVERLAY ============ */
+.success-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,10,0.95);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 40px;
+  animation: fadeIn 0.4s ease;
+}
+.success-overlay.show { display: flex; }
+
+.success-icon {
+  width: 80px; height: 80px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin-bottom: 28px;
+  animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+}
+.success-overlay h2 {
+  font-family: var(--font-display);
+  font-size: 52px;
+  letter-spacing: 3px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.success-overlay p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--white-mid);
+  max-width: 360px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+.success-id {
+  background: var(--black-muted);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--red);
+  margin-bottom: 36px;
+}
+.btn-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 40px;
+  padding: 16px 36px;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+.btn-home:hover { background: #c0000f; transform: scale(1.04); }
+
+/* ============ FOOTER ============ */
+.page-footer {
+  background: var(--black-soft);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-footer p {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--white-mid);
+}
+.page-footer span { color: var(--red); }
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes popIn {
+  from { transform: scale(0.5); opacity:0; }
+  to   { transform: scale(1); opacity:1; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .left-panel { padding: 48px 32px; }
+  .left-panel::before { display: none; }
+  .right-panel { padding: 48px 32px; }
+  .navbar { padding: 0 24px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar">
+  <div class="nav-logo">MARVEL</div>
+  <a href="Marvel_showroom.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Back to Home
+  </a>
+</nav>
+
+<!-- ====== MAIN LAYOUT ====== -->
+<div class="page-wrap">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-tag">Free Test Drive</div>
+
+    <h1 class="left-title">
+      Book Your
+      <em>Test Drive</em>
+    </h1>
+
+    <div class="left-line"></div>
+
+    <p class="left-desc">
+      Experience the power, luxury, and thrill of our cars firsthand. 
+      Book your free test drive today — no commitment, just pure performance.
+    </p>
+
+    <div class="perks">
+      <div class="perk">
+        <span class="perk-icon">🏎️</span>
+        <div class="perk-text">
+          <strong>All Models Available</strong>
+          <span>Iron Man, Captain America, Thor, Hulk</span>
+        </div>
+      </div>
+      <div class="perk">
+        <span class="perk-icon">🕐</span>
+        <div class="perk-text">
+          <strong>Mon – Sat · 9AM to 7PM</strong>
+          <span>Flexible slots, walk-in welcome</span>
+        </div>
+      </div>
+      <div class="perk">
+        <span class="perk-icon">✅</span>
+        <div class="perk-text">
+          <strong>Zero Cost. Zero Obligation.</strong>
+          <span>Just bring your licence & enjoy the ride</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — FORM -->
+  <div class="right-panel">
+
+    <div class="form-header">
+      <h2>FILL THE DETAILS</h2>
+      <p>We'll confirm your slot within 30 minutes via call or SMS.</p>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="steps">
+      <div class="step-item active">
+        <div class="step-num">1</div>
+        Personal
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item active">
+        <div class="step-num">2</div>
+        Vehicle
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item active">
+        <div class="step-num">3</div>
+        Schedule
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form class="booking-form" id="bookingForm" novalidate>
+
+      <!-- Personal Info -->
+      <div class="section-label">Personal Info</div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Eg: Maran Kumar" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 98745 63210" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@gmail.com" required>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Vehicle -->
+      <div class="section-label">Choose Your Car</div>
+
+      <div class="field">
+        <label for="car_model">Car Model</label>
+        <div class="select-wrap">
+          <select id="car_model" name="car_model" required>
+            <option value="" disabled selected>Select a model</option>
+            <option value="Iron Man">⚙️ Iron Man</option>
+            <option value="Captain America">🛡️ Captain America</option>
+            <option value="Thor">⚡ Thor</option>
+            <option value="Hulk">💪 Hulk</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+
+      <!-- Schedule -->
+      <div class="section-label">Schedule</div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="date">Preferred Date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="field">
+          <label for="time">Preferred Time</label>
+          <input type="time" id="time" name="time" required>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn">
+        Book My Test Drive →
+      </button>
+
+      <p class="form-note">
+        By booking, you agree to our 
+        <a href="terms_condition.html">Terms & Conditions</a>. 
+        We'll never share your data.
+      </p>
+
+    </form>
+  </div>
+
+</div>
+
+<!-- ====== SUCCESS OVERLAY ====== -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">🏎️</div>
+  <h2>BOOKING CONFIRMED!</h2>
+  <p>Your test drive has been booked successfully. Our team will contact you within 30 minutes to confirm your slot.</p>
+  <div class="success-id" id="bookingId">MV-000000</div>
+  <button class="btn-home" onclick="window.location.href='Marvel_showroom.html'">Back to Home →</button>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer class="page-footer">
+  <p>© 2026 <span><a href="Marvel_showroom.html">Marvel Showroom</a></span>.. All rights reserved.</p>
+  <p>📞 <span>+91 98745 63210</span> &nbsp;|&nbsp; ✉️ marvels.showroom@gmail.com</p>
+</footer>
+
+<script>
+// Set min date to today
+const dateInput = document.getElementById("date");
+const today = new Date().toISOString().split("T")[0];
+dateInput.min = today;
+
+// Form submit
+document.getElementById("bookingForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const fields = this.querySelectorAll("input[required], select[required]");
+  let valid = true;
+
+  fields.forEach(f => {
+    if (!f.value.trim()) {
+      f.style.borderColor = "rgba(224,0,18,0.7)";
+      valid = false;
+      f.addEventListener("input", () => f.style.borderColor = "", { once: true });
+    }
+  });
+
+  if (!valid) return;
+
+  // Generate booking ID
+  const id = "MV-" + Math.floor(100000 + Math.random() * 900000);
+  document.getElementById("bookingId").textContent = id;
+
+  // Show success
+  document.getElementById("successOverlay").classList.add("show");
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Marvel Showroom</title>
+  <link rel="stylesheet" href="shared.css">
+<style>
+
+/* ====== HERO ====== */
+.s-hero {
+  height: 100vh;
+  min-height: 600px;
+  background: url('../images/about_1.jpg') center/cover no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 72px;
+  overflow: hidden;
+}
+.s-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(10,10,10,0.92) 45%, rgba(10,10,10,0.2) 100%),
+    linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 60%);
+}
+.s-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+.s-hero-tag {
+  display: inline-flex;align-items:center;gap:8px;
+  background:rgba(224,0,18,0.12);border:1px solid rgba(224,0,18,0.28);
+  border-radius:30px;padding:6px 16px;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);
+  margin-bottom:22px;
+}
+.s-hero-tag::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;}
+
+.s-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6.5vw, 96px);
+  letter-spacing: 3px;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 22px;
+}
+.s-hero h1 em { font-style:normal; color:var(--red); display:block; }
+
+.s-hero p {
+  font-size: 15px;font-weight:300;
+  color: var(--white-mid);line-height:1.8;
+  max-width: 420px;margin-bottom:36px;
+}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+
+/* Trust badges */
+.trust-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.trust-item {
+  padding: 22px 32px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex;align-items:center;gap:14px;
+}
+.trust-item:last-child{border-right:none;}
+.trust-icon{font-size:22px;flex-shrink:0;}
+.trust-text strong {
+  display:block;font-family:var(--font-body);
+  font-size:14px;font-weight:700;letter-spacing:0.5px;color:var(--white);
+}
+.trust-text span{font-size:12px;color:var(--white-mid);font-weight:300;}
+
+/* ====== SERVICE CARDS ====== */
+.services-section {
+  background: var(--black-soft);
+  padding: 100px 72px;
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 0;
+}
+.srv-card {
+  background: var(--black-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 40px 34px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s, transform 0.35s;
+}
+.srv-card::before {
+  content: '';
+  position: absolute;
+  top: 0;left:0;right:0;height:3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.35s;
+  transform-origin: left;
+}
+.srv-card:hover {
+  border-color: rgba(224,0,18,0.25);
+  transform: translateY(-8px);
+}
+.srv-card:hover::before{transform:scaleX(1);}
+
+.srv-num {
+  font-family: var(--font-display);
+  font-size: 56px;letter-spacing:2px;
+  color: rgba(255,255,255,0.04);
+  position: absolute;top:20px;right:24px;
+  line-height:1;
+}
+.srv-icon{font-size:34px;margin-bottom:20px;}
+.srv-card h3 {
+  font-family: var(--font-body);
+  font-size: 20px;font-weight:700;letter-spacing:1px;
+  color:var(--white);margin-bottom:12px;
+}
+.srv-card p {
+  font-size:13px;font-weight:300;
+  color:var(--white-mid);line-height:1.75;margin-bottom:28px;
+}
+.srv-features {
+  list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:28px;
+}
+.srv-features li {
+  font-size:12px;color:var(--white-mid);font-weight:300;
+  display:flex;align-items:center;gap:8px;
+}
+.srv-features li::before{
+  content:'';width:5px;height:5px;
+  background:var(--red);border-radius:50%;flex-shrink:0;
+}
+
+/* ====== STATS ROW ====== */
+.stats-section{
+  background:var(--black);
+  padding:80px 72px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.stat-box{
+  text-align:center;padding:40px 20px;
+  border-right:1px solid rgba(255,255,255,0.05);
+}
+.stat-box:last-child{border-right:none;}
+.stat-num{
+  font-family:var(--font-display);
+  font-size:60px;letter-spacing:2px;
+  color:var(--white);line-height:1;
+}
+.stat-num span{color:var(--red);}
+.stat-label{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--white-mid);margin-top:6px;
+  font-family:var(--font-fine);
+}
+
+/* ====== WHY SECTION ====== */
+.why-section{background:var(--black-soft);padding:100px 72px;}
+
+.why-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.why-card{
+  background:var(--black-muted);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:16px;padding:36px 28px;
+  transition:border-color 0.3s,transform 0.3s;
+  position:relative;overflow:hidden;
+}
+.why-card::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(224,0,18,0.06) 0%, transparent 70%);
+  opacity:0;transition:opacity 0.3s;
+}
+.why-card:hover{border-color:rgba(224,0,18,0.25);transform:translateY(-6px);}
+.why-card:hover::after{opacity:1;}
+.why-card-icon{font-size:30px;margin-bottom:18px;}
+.why-card h3{
+  font-family:var(--font-body);font-size:17px;
+  font-weight:700;letter-spacing:1px;
+  color:var(--white);margin-bottom:10px;
+}
+.why-card p{
+  font-size:12px;font-weight:300;
+  color:var(--white-mid);line-height:1.75;
+}
+
+/* ====== PROCESS ====== */
+.process-section{background:var(--black);padding:100px 72px;}
+
+.process-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  position:relative;margin-top:10px;
+}
+.process-grid::before{
+  content:'';
+  position:absolute;
+  top:40px;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,var(--red),transparent);
+  z-index:0;
+}
+.proc-item{
+  text-align:center;padding:0 20px;position:relative;z-index:1;
+}
+.proc-circle{
+  width:80px;height:80px;
+  background:var(--black-muted);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;
+  font-size:26px;
+  transition:all 0.3s;
+  position:relative;
+}
+.proc-circle::after{
+  content:attr(data-num);
+  position:absolute;top:-8px;right:-8px;
+  width:24px;height:24px;
+  background:var(--red);border-radius:50%;
+  font-family:var(--font-display);font-size:12px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);
+}
+.proc-item:hover .proc-circle{
+  border-color:var(--red);
+  background:rgba(224,0,18,0.1);
+}
+.proc-item h3{
+  font-family:var(--font-body);font-size:16px;
+  font-weight:700;letter-spacing:1px;
+  color:var(--white);margin-bottom:10px;
+}
+.proc-item p{
+  font-size:12px;font-weight:300;
+  color:var(--white-mid);line-height:1.75;
+}
+
+@media(max-width:1024px){
+  .s-hero{padding:0 32px;}
+  .trust-bar{grid-template-columns:repeat(2,1fr);}
+  .services-section,.stats-section,.why-section,.process-section{padding:72px 32px;}
+  .service-grid{grid-template-columns:repeat(2,1fr);}
+  .why-grid,.process-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-section{grid-template-columns:repeat(2,1fr);}
+  .process-grid::before{display:none;}
+}
+@media(max-width:600px){
+  .service-grid,.why-grid,.process-grid{grid-template-columns:1fr;}
+  .trust-bar{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- injected by JS -->
+
+<!-- ====== HERO ====== -->
+<section class="s-hero">
+  <div class="s-hero-content">
+    <div class="s-hero-tag fade-up d1">Top Rated Service Center</div>
+    <h1 class="fade-up d2">
+      Expert Car
+      <em>Service &amp; Repair</em>
+    </h1>
+    <p class="fade-up d3">
+      From routine maintenance to complex repairs — Marvel's certified technicians 
+      keep your vehicle performing at its absolute peak.
+    </p>
+    <div class="hero-actions fade-up d4">
+      <a href="tel:9874563210" class="btn-red">Schedule Appointment →</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+  </div>
+
+  <!-- Trust bar -->
+  <div class="trust-bar fade-up d5">
+    <div class="trust-item">
+      <span class="trust-icon">🏆</span>
+      <div class="trust-text">
+        <strong>ASE Certified</strong>
+        <span>Licensed technicians only</span>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🔧</span>
+      <div class="trust-text">
+        <strong>18+ Years</strong>
+        <span>Trusted expertise</span>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🛡️</span>
+      <div class="trust-text">
+        <strong>Genuine Parts</strong>
+        <span>OEM certified components</span>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">⚡</span>
+      <div class="trust-text">
+        <strong>Same Day</strong>
+        <span>Fast turnaround service</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SERVICES ====== -->
+<section class="services-section" id="services">
+  <div class="sec-header fade-up d1">
+    <div class="sec-tag">What We Offer</div>
+    <h2 class="sec-title">Our <em>Services</em></h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="service-grid">
+
+    <div class="srv-card fade-up d2">
+      <div class="srv-num">01</div>
+      <div class="srv-icon">❄️</div>
+      <h3>AC & Electrical</h3>
+      <p>Complete diagnosis and repair of your vehicle's air conditioning and full electrical system.</p>
+      <ul class="srv-features">
+        <li>AC gas refill & compressor repair</li>
+        <li>ECU diagnostics & wiring</li>
+        <li>Battery health check</li>
+        <li>Sensor calibration</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+    <div class="srv-card fade-up d3">
+      <div class="srv-num">02</div>
+      <div class="srv-icon">⚙️</div>
+      <h3>Transmission</h3>
+      <p>Smooth gear shifting and peak drivetrain performance with our transmission specialists.</p>
+      <ul class="srv-features">
+        <li>Automatic & manual gearbox</li>
+        <li>Clutch replacement</li>
+        <li>Differential service</li>
+        <li>Driveshaft repair</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+    <div class="srv-card fade-up d4">
+      <div class="srv-num">03</div>
+      <div class="srv-icon">🛑</div>
+      <h3>Brake Repair</h3>
+      <p>Safety-first brake inspection and complete overhaul — stop with confidence every time.</p>
+      <ul class="srv-features">
+        <li>Disc & drum brake service</li>
+        <li>ABS system repair</li>
+        <li>Brake fluid flush</li>
+        <li>Caliper replacement</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+    <div class="srv-card fade-up d2">
+      <div class="srv-num">04</div>
+      <div class="srv-icon">🔩</div>
+      <h3>Engine Service</h3>
+      <p>Full engine diagnostics, oil change, and complete overhaul by certified mechanics.</p>
+      <ul class="srv-features">
+        <li>Oil & filter change</li>
+        <li>Timing belt replacement</li>
+        <li>Fuel system cleaning</li>
+        <li>Valve adjustment</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+    <div class="srv-card fade-up d3">
+      <div class="srv-num">05</div>
+      <div class="srv-icon">🛞</div>
+      <h3>Tyre & Alignment</h3>
+      <p>Wheel balancing, alignment, and tyre rotation to ensure safe and smooth driving.</p>
+      <ul class="srv-features">
+        <li>4-wheel alignment</li>
+        <li>Tyre rotation & balancing</li>
+        <li>Puncture repair</li>
+        <li>TPMS sensor service</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+    <div class="srv-card fade-up d4">
+      <div class="srv-num">06</div>
+      <div class="srv-icon">✨</div>
+      <h3>Detailing & PPF</h3>
+      <p>Premium car detailing, paint protection film, and ceramic coating to keep it showroom-fresh.</p>
+      <ul class="srv-features">
+        <li>Full exterior detailing</li>
+        <li>Paint protection film</li>
+        <li>Ceramic coating</li>
+        <li>Interior deep clean</li>
+      </ul>
+      <a href="tel:9874563210" class="btn-red">Book Now →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== STATS ====== -->
+<div class="stats-section">
+  <div class="stat-box fade-up d1">
+    <div class="stat-num">18<span>+</span></div>
+    <div class="stat-label">Years of Experience</div>
+  </div>
+  <div class="stat-box fade-up d2">
+    <div class="stat-num">12<span>K</span></div>
+    <div class="stat-label">Cars Serviced</div>
+  </div>
+  <div class="stat-box fade-up d3">
+    <div class="stat-num">99<span>%</span></div>
+    <div class="stat-label">Customer Satisfaction</div>
+  </div>
+  <div class="stat-box fade-up d4">
+    <div class="stat-num">6<span>+</span></div>
+    <div class="stat-label">Service Categories</div>
+  </div>
+</div>
+
+<!-- ====== WHY ====== -->
+<section class="why-section">
+  <div class="sec-header fade-up d1">
+    <div class="sec-tag">Our Edge</div>
+    <h2 class="sec-title">Why Choose <em>Marvel</em></h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card fade-up d2">
+      <div class="why-card-icon">🏆</div>
+      <h3>Certified Experts</h3>
+      <p>All technicians are ASE-certified with 10+ years of hands-on experience across all major brands.</p>
+    </div>
+    <div class="why-card fade-up d3">
+      <div class="why-card-icon">🔩</div>
+      <h3>Genuine OEM Parts</h3>
+      <p>We use only manufacturer-approved components, ensuring your warranty stays intact.</p>
+    </div>
+    <div class="why-card fade-up d4">
+      <div class="why-card-icon">💳</div>
+      <h3>Transparent Pricing</h3>
+      <p>No hidden fees. You get a full quote before we start — always honest, always fair.</p>
+    </div>
+    <div class="why-card fade-up d5">
+      <div class="why-card-icon">🚗</div>
+      <h3>Pickup & Drop</h3>
+      <p>We offer free vehicle pickup and drop within 15 km. Your comfort comes first.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PROCESS ====== -->
+<section class="process-section">
+  <div class="sec-header fade-up d1">
+    <div class="sec-tag">How It Works</div>
+    <h2 class="sec-title">Our <em>Process</em></h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="process-grid">
+    <div class="proc-item fade-up d2">
+      <div class="proc-circle" data-num="1">📞</div>
+      <h3>Book Appointment</h3>
+      <p>Call us or book online. We schedule a convenient time slot for you.</p>
+    </div>
+    <div class="proc-item fade-up d3">
+      <div class="proc-circle" data-num="2">🔍</div>
+      <h3>Vehicle Inspection</h3>
+      <p>Our engineers run a thorough 50-point diagnostic inspection.</p>
+    </div>
+    <div class="proc-item fade-up d4">
+      <div class="proc-circle" data-num="3">🔧</div>
+      <h3>Repair & Service</h3>
+      <p>Only approved repairs proceed — using certified parts and expert hands.</p>
+    </div>
+    <div class="proc-item fade-up d5">
+      <div class="proc-circle" data-num="4">✅</div>
+      <h3>Quality Check & Delivery</h3>
+      <p>Final road test and quality sign-off before we hand back your keys.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="cta-strip">
+  <div class="cta-inner">
+    <div>
+      <h2>Ready to Service<br>Your Car?</h2>
+      <p>Book now and get a free 25-point inspection with every service.</p>
+    </div>
+    <a href="tel:9874563210" class="btn-white">Call +91 98745 63210 →</a>
+  </div>
+</section>
+
+<script src="marvel-layout.js"></script>
+<script>injectLayout('service');</script>
+</body>
+</html>
