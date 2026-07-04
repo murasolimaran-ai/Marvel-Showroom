@@ -26,7 +26,7 @@ https://github.com/murasolimaran-ai/marvel-showroom
 ### 🏠 Home Page
 
 <p align="center">
-<img src="images/home.png" width="900">
+<img src="image/home.png" width="900">
 </p>
 
 ---
@@ -34,7 +34,7 @@ https://github.com/murasolimaran-ai/marvel-showroom
 ### 🚘 Gallery Cars
 
 <p align="center">
-<img src="images/gallery.png" width="900">
+<img src="image/gallery.png" width="900">
 </p>
 
 ---
@@ -42,7 +42,7 @@ https://github.com/murasolimaran-ai/marvel-showroom
 ### ⭐ Car Booking Details 
 
 <p align="center">
-<img src="images/details.png" width="900">
+<img src="image/details.png" width="900">
 </p>
 
 ---
